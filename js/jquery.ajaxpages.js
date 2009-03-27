@@ -21,6 +21,12 @@
 	$.ajaxpages_defaultoptions = {
 		/* No trailing slash! */
 		ajax_base: 'ajax',
+		/* Setting this too low will cause
+		 * All hell to break loose. Seriously, don't
+		 * go lower than 250. It's responsive enough 
+		 * at 300. But if you set it too high, you might
+		 * as well not even use this plugin.
+		 */
 		update_freq: 300,
 		ajax_type: 'GET',
 		ajax_cache: true,
@@ -28,6 +34,11 @@
 		ajax_dataType: 'html',
 		default_hash: '',
 		loadingContainer: '#ajaxpages_loading',
+		/* I figured someone out there would want to
+		 * expand on the way I do things, and in order
+		  * to keep the flying daggers to a minimum, I
+		  * have included these not so helpful callbacks.
+		  */
 		beforeLoadCallback: function(XMLHttpRequest){},
 		onErrorCallback: function(XMLHttpRequest, textStatus, errorThrown){},
 		onSuccessCallback: function(html){}
@@ -56,6 +67,7 @@
 		if($.ajaxpages_rv.init_settings.default_hash != ''){
 			window.location.hash = '#' + $.ajaxpages_rv.init_settings.default_hash;
 		}
+		/* Why? No idea. */
 		if(!$.ajaxpages_rv.has_init){
 			$.ajaxpages_hashloop();
 		}
@@ -83,6 +95,7 @@
 				url: $.ajaxpages_rv.init_settings.ajax_base + $.ajaxpages_rv.current_hash,
 				dataType: $.ajaxpages_rv.init_settings.ajax_dataType,
 				cache: $.ajaxpages_rv.init_settings.ajax_cache,
+				/* Here's your damn callbacks */
 				success: function(html){
 					$.ajaxpages_rv.init_settings.onSuccessCallback(html);
 					$.ajaxpages_updatePage(html);
@@ -109,9 +122,11 @@
 		$($.ajaxpages_rv.init_clone).html(html);
 	};
 	
-	/* Helper Functions
-	 * These tasks provide a way for returned pages to update content 
-	 * out of the container.
+	/* Sets Page Title
+	 * This function is for those lazy people out there
+	 * who don't want to use document.title = 'title'
+	 * I supposed since you're using jquery, you might as well
+	 * go all the way right? RIGHT?
 	 */
 	$.ajaxpages_set_title = function(page_title){
 		document.title = page_title;
